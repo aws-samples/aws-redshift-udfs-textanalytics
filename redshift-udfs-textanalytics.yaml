@@ -1,0 +1,350 @@
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Amazon Redshift UDFs for text translation, PII detection/redaction, and analytics using Amazon Comprehend and Amazon Translate (v0.1.0)
+Metadata:
+  'AWS::ServerlessRepo::Application':
+    Name: RedshiftTextAnalyticsUDF
+    SemanticVersion: 0.1.0
+    Description: 'This Redshift UDF Lambda provides (i) text translation between languages using Amazon Translate, (ii) text analytics including detection of language, sentiment, entities and PII using Amazon Comprehend, and (iii) redaction of detected entities and PII.'
+    Author: 'Bob Strahan'
+    SpdxLicenseId: Apache-2.0
+    LicenseUrl: LICENSE.txt
+    ReadmeUrl: README.md
+    HomePageUrl: 'https://github.com/aws-samples/aws-redshift-udfs-textanalytics'
+    SourceCodeUrl: 'https://github.com/aws-samples/aws-redshift-udfs-textanalytics'
+Parameters:
+  NamePrefix:
+    Description: 'The name prefix you will give to Lambda functions which executes your UDFs, and the IAM role used by Redshift. This name must satisfy the pattern ^[A-Za-z0-9-_]{1,64}$'
+    Type: String
+    Default: "RedshiftTextAnalyticsUDF"
+    AllowedPattern: ^[A-Za-z0-9-_]{1,64}$
+  LambdaTimeout:
+    Description: 'Maximum Lambda invocation runtime in seconds. (min 1 - 900 max)'
+    Default: 900
+    Type: Number
+  LambdaMemory:
+    Description: 'Lambda memory in MB (min 128 - 3008 max).'
+    Default: 3008
+    Type: Number
+Resources:
+  FunctionDetectDominantLanguage:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-DetectDominantLanguage' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerDetectDominantLanguage"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:BatchDetectDominantLanguage
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+          
+  FunctionDetectDominantLanguageAll:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-DetectDominantLanguageAll' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerDetectDominantLanguageAll"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:BatchDetectDominantLanguage
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+
+          
+  FunctionDetectSentiment:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-DetectSentiment' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerDetectSentiment"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:BatchDetectSentiment
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+          
+  FunctionDetectSentimentAll:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-DetectSentimentAll' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerDetectSentimentAll"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:BatchDetectSentiment
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+          
+  FunctionDetectEntities:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-DetectEntities' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerDetectEntities"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:BatchDetectEntities
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+          
+  FunctionDetectEntitiesAll:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-DetectEntitiesAll' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerDetectEntitiesAll"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:BatchDetectEntities
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+          
+  FunctionRedactEntities:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-RedactEntities' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerRedactEntities"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:BatchDetectEntities
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+          
+  FunctionDetectPIIEntities:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-DetectPIIEntities' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerDetectPIIEntities"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:DetectPiiEntities
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+          
+  FunctionDetectPIIEntitiesAll:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-DetectPIIEntitiesAll' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerDetectPIIEntitiesAll"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:DetectPiiEntities
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+          
+  FunctionRedactPIIEntities:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-RedactPIIEntities' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerRedactPIIEntities"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - comprehend:DetectPiiEntities
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+
+  FunctionTranslateText:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: !Sub '${NamePrefix}-TranslateText' 
+      Handler: "com.amazonaws.redshift.udf.textanalytics.HandlerTranslateText"
+      CodeUri: "./target/textanalyticsudfs-1.0.jar"
+      Description: "UDF for Amazon Redshift to leverage Amazon Comprehend and Amazon Translate text analytics services via Lambda UDFs."
+      Runtime: java8
+      Timeout: !Ref LambdaTimeout
+      MemorySize: !Ref LambdaMemory
+      Policies:
+        - Statement:
+            - Action:
+                - translate:TranslateText
+                - comprehend:DetectDominantLanguage
+              Effect: Allow
+              Resource: "*"
+          Version: '2012-10-17'
+
+  RedshiftLambdaInvokeRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: !Sub '${NamePrefix}-RedshiftRole'
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - redshift.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: InvokeUDFLambdaHandler
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'lambda:InvokeFunction'
+                Resource:
+                  - !GetAtt FunctionDetectDominantLanguage.Arn
+                  - !GetAtt FunctionDetectDominantLanguageAll.Arn
+                  - !GetAtt FunctionDetectSentiment.Arn
+                  - !GetAtt FunctionDetectSentimentAll.Arn
+                  - !GetAtt FunctionDetectEntities.Arn
+                  - !GetAtt FunctionDetectEntitiesAll.Arn
+                  - !GetAtt FunctionRedactEntities.Arn
+                  - !GetAtt FunctionDetectPIIEntities.Arn
+                  - !GetAtt FunctionDetectPIIEntitiesAll.Arn
+                  - !GetAtt FunctionRedactPIIEntities.Arn
+                  - !GetAtt FunctionTranslateText.Arn
+
+Outputs:
+
+  FunctionDetectDominantLanguage:
+    Description: FunctionDetectDominantLanguage
+    Value: !Ref FunctionDetectDominantLanguage
+
+  FunctionDetectDominantLanguageAll:
+    Description: FunctionDetectDominantLanguageAll
+    Value: !Ref FunctionDetectDominantLanguageAll
+
+  FunctionDetectSentiment:
+    Description: FunctionDetectSentiment
+    Value: !Ref FunctionDetectSentiment
+
+  FunctionDetectSentimentAll:
+    Description: FunctionDetectSentimentAll
+    Value: !Ref FunctionDetectSentimentAll
+
+  FunctionDetectEntities:
+    Description: FunctionDetectEntities
+    Value: !Ref FunctionDetectEntities
+
+  FunctionDetectEntitiesAll:
+    Description: FunctionDetectEntitiesAll
+    Value: !Ref FunctionDetectEntitiesAll
+
+  FunctionRedactEntities:
+    Description: FunctionRedactEntities
+    Value: !Ref FunctionRedactEntities
+
+  FunctionDetectPIIEntities:
+    Description: FunctionDetectPIIEntities
+    Value: !Ref FunctionDetectPIIEntities
+
+  FunctionDetectPIIEntitiesAll:
+    Description: FunctionDetectPIIEntitiesAll
+    Value: !Ref FunctionDetectPIIEntitiesAll
+
+  FunctionRedactPIIEntities:
+    Description: FunctionRedactPIIEntities
+    Value: !Ref FunctionRedactPIIEntities
+
+  FunctionTranslateText:
+    Description: FunctionTranslateText
+    Value: !Ref FunctionTranslateText
+
+  RedshiftLambdaInvokeRole:
+    Description: ARN for IAM role that gives Redshift permission to invoke the Lambda UDFs. Attach this role to your Redshidt cluster.
+    Value: !GetAtt RedshiftLambdaInvokeRole.Arn
+
+  SQLScriptExternalFunction:
+    Description: Run this SQL script to create the TextAnalytics UDF functions in your Redshift cluster
+    Value: !Sub |
+      GRANT USAGE ON LANGUAGE EXFUNC TO PUBLIC;
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION detect_dominant_language (varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionDetectDominantLanguage}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION detect_dominant_language_all (varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionDetectDominantLanguageAll}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION detect_sentiment (varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionDetectSentiment}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION detect_sentiment_all (varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionDetectSentimentAll}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION detect_entities (varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionDetectEntities}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION detect_entities_all (varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionDetectEntitiesAll}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION redact_entities (varchar, varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionRedactEntities}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION detect_pii_entities (varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionDetectPIIEntities}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION detect_pii_entities_all (varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionDetectPIIEntitiesAll}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION redact_pii_entities (varchar, varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionRedactPIIEntities}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
+      
+      CREATE OR REPLACE EXTERNAL FUNCTION translate_text (varchar, varchar, varchar, varchar) RETURNS varchar IMMUTABLE
+      LAMBDA '${FunctionTranslateText}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
