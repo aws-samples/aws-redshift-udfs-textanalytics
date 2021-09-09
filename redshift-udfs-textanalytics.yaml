@@ -6,8 +6,8 @@ Metadata:
     SemanticVersion: 0.1.0
     Description: 'This Redshift UDF Lambda provides (i) text translation between languages using Amazon Translate, (ii) text analytics including detection of language, sentiment, entities and PII using Amazon Comprehend, and (iii) redaction of detected entities and PII.'
     Author: 'Bob Strahan'
-    SpdxLicenseId: Apache-2.0
-    LicenseUrl: LICENSE.txt
+    SpdxLicenseId: MIT-0
+    LicenseUrl: LICENSE
     ReadmeUrl: README.md
     HomePageUrl: 'https://github.com/aws-samples/aws-redshift-udfs-textanalytics'
     SourceCodeUrl: 'https://github.com/aws-samples/aws-redshift-udfs-textanalytics'
