@@ -84,5 +84,5 @@ fi
 set -e
 mvn clean install -Dpublishing=true
 
-sam package --template-file $2.yaml --output-template-file packaged.yaml --s3-bucket $1 --region $REGION
+sam package --template-file $2.yaml --output-template-file packaged.yaml --s3-bucket $1 --s3-prefix sam-artifacts/redshift-textanalytics-udfs --region $REGION
 sam publish --template packaged.yaml --region $REGION

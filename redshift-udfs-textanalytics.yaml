@@ -316,35 +316,35 @@ Outputs:
     Value: !Sub |
       GRANT USAGE ON LANGUAGE EXFUNC TO PUBLIC;
       
-      CREATE OR REPLACE EXTERNAL FUNCTION detect_dominant_language (varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_detect_dominant_language (varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionDetectDominantLanguage}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION detect_dominant_language_all (varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_detect_dominant_language_all (varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionDetectDominantLanguageAll}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION detect_sentiment (varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_detect_sentiment (varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionDetectSentiment}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION detect_sentiment_all (varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_detect_sentiment_all (varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionDetectSentimentAll}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION detect_entities (varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_detect_entities (varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionDetectEntities}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION detect_entities_all (varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_detect_entities_all (varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionDetectEntitiesAll}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION redact_entities (varchar, varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_redact_entities (varchar(max), varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionRedactEntities}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION detect_pii_entities (varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_detect_pii_entities (varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionDetectPIIEntities}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION detect_pii_entities_all (varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_detect_pii_entities_all (varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionDetectPIIEntitiesAll}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION redact_pii_entities (varchar, varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_redact_pii_entities (varchar(max), varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionRedactPIIEntities}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';
       
-      CREATE OR REPLACE EXTERNAL FUNCTION translate_text (varchar, varchar, varchar, varchar) RETURNS varchar IMMUTABLE
+      CREATE OR REPLACE EXTERNAL FUNCTION f_translate_text (varchar(max), varchar(max), varchar(max), varchar(max)) RETURNS varchar(max) IMMUTABLE
       LAMBDA '${FunctionTranslateText}' IAM_ROLE '${RedshiftLambdaInvokeRole.Arn}';

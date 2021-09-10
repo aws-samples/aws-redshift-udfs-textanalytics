@@ -77,13 +77,13 @@ Let’s assume that 2,000 of your tweets aren’t in your local language, so you
 
 ### Translate Text
 
-#### translate\_text(text_col VARCHAR, sourcelang VARCHAR, targetlang VARCHAR, terminologyname VARCHAR) RETURNS VARCHAR
+#### f\_translate\_text(text_col VARCHAR, sourcelang VARCHAR, targetlang VARCHAR, terminologyname VARCHAR) RETURNS VARCHAR
 
 Returns the translated string, in the target language specified. Source language can be explicitly specified, or use 'auto'
 to detect source language automatically (the Translate service calls Comprehend behind the scenes to detect the source language when you use 'auto'). 
 Specify a custom terminology name, or 'null' if you aren't using custom terminologies.
 ```
-SELECT translate_text('It is a beautiful day in the neighborhood', 'auto', 'fr', 'null') as translated_text
+SELECT f_translate_text('It is a beautiful day in the neighborhood', 'auto', 'fr', 'null') as translated_text
 
 translated_text
 C'est une belle journée dans le quartier
@@ -91,20 +91,20 @@ C'est une belle journée dans le quartier
 
 ### Detect Language
 
-#### detect\_dominant\_language(text_col VARCHAR) RETURNS VARCHAR
+#### f\_detect\_dominant\_language(text_col VARCHAR) RETURNS VARCHAR
 
 Returns string value with dominant language code:
 ```
-SELECT detect_dominant_language('il fait beau à Orlando') as language
+SELECT f_detect_dominant_language('il fait beau à Orlando') as language
 
 language
 fr
 ```
-#### detect\_dominant\_language\_all(text_col VARCHAR) RETURNS VARCHAR
+#### f\_detect\_dominant\_language\_all(text_col VARCHAR) RETURNS VARCHAR
 
 Returns the set of detected languages and scores as a JSON formatted string, which can be further analysed with Redshift's [JSON functions](https://docs.aws.amazon.com/redshift/latest/dg/json-functions.html).
 ```
-SELECT detect_dominant_language_all('il fait beau à Orlando') as language_all
+SELECT f_detect_dominant_language_all('il fait beau à Orlando') as language_all
 
 language_all
 [{"languageCode":"fr","score":0.99807304}]
@@ -114,23 +114,23 @@ language_all
 
 Input languages supported: en | es | fr | de | it | pt | ar | hi | ja | ko | zh | zh-TW (See [doc](https://docs.aws.amazon.com/comprehend/latest/dg/API_DetectSentiment.html#comprehend-DetectSentiment-request-LanguageCode) for latest)
 
-#### detect\_sentiment(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
+#### f\_detect\_sentiment(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
 
 Returns string value with dominant sentiment:
 
 ```
-SELECT detect_sentiment('Joe is very happy', 'en') as sentiment
+SELECT f_detect_sentiment('Joe is very happy', 'en') as sentiment
 
 sentiment
 POSITIVE
 ```
 
-#### detect\_sentiment\_all(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
+#### f\_detect\_sentiment\_all(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
 
 Returns the dominant sentiment and all sentiment scores as a JSON formatted string, which can be further analysed with Redshift's [JSON functions](https://docs.aws.amazon.com/redshift/latest/dg/json-functions.html).
 
 ```
-SELECT detect_sentiment_all('Joe is very happy', 'en') as sentiment_all
+SELECT f_detect_sentiment_all('Joe is very happy', 'en') as sentiment_all
 
 sentiment_all
 {"sentiment":"POSITIVE","sentimentScore":{"positive":0.999519,"negative":7.407639E-5,"neutral":2.7478999E-4,"mixed":1.3210243E-4}}
@@ -142,48 +142,48 @@ Entity Types supported -- see [Entity types](https://docs.aws.amazon.com/compreh
 Input languages supported: en | es | fr | de | it | pt | ar | hi | ja | ko | zh | zh-TW (See [doc](https://docs.aws.amazon.com/comprehend/latest/dg/API_BatchDetectEntities.html#API_BatchDetectEntities_RequestSyntax) for latest)
 
 
-#### detect\_entities(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
+#### f\_detect\_entities(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
 
 Returns JSON string value with list of PII types and values:
 
 ```
-SELECT detect_entities('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en') as entities
+SELECT f_detect_entities('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en') as entities
 
 entities
 [["PERSON","Joe"],["LOCATION","Richmond VA"],["ORGANIZATION","Amazon"],["COMMERCIAL_ITEM","Echo Show"],["DATE","January 5th"]]
 ```
 
-#### detect\_entities\_all(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
+#### f\_detect\_entities\_all(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
 
 Returns the detected entity types, scores, values, and offsets as a JSON formatted string, which can be further analysed with Redshift's [JSON functions](https://docs.aws.amazon.com/redshift/latest/dg/json-functions.html).
 
 ```
-SELECT detect_entities_all('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en') as entities_all
+SELECT f_detect_entities_all('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en') as entities_all
 
 entities_all
 [{"score":0.9956949,"type":"PERSON","text":"Joe","beginOffset":12,"endOffset":15},{"score":0.99672645,"type":"LOCATION","text":"Richmond VA","beginOffset":29,"endOffset":40},{"score":0.963684,"type":"ORGANIZATION","text":"Amazon","beginOffset":55,"endOffset":61},{"score":0.98822284,"type":"COMMERCIAL_ITEM","text":"Echo Show","beginOffset":62,"endOffset":71},{"score":0.998659,"type":"DATE","text":"January 5th","beginOffset":75,"endOffset":86}]
 ```
 
-#### redact\_entities(text_col VARCHAR, lang VARCHAR, type VARCHAR) RETURNS VARCHAR
+#### f\_redact\_entities(text_col VARCHAR, lang VARCHAR, type VARCHAR) RETURNS VARCHAR
 
 Redacts specified entity values from the input string.
 Use the `types` argument to specify a list of [PII types](https://docs.aws.amazon.com/comprehend/latest/dg/API_PiiEntity.html#comprehend-Type-PiiEntity-Type) to be redacted.  
 
 ```
 -- redact PERSON
-SELECT redact_entities('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en', 'PERSON') as entities_redacted
+SELECT f_redact_entities('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en', 'PERSON') as entities_redacted
 
 entities_redacted
 His name is [PERSON], he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it
 
 -- redact PERSON and DATE
-SELECT redact_entities('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en', 'PERSON, DATE') as entities_redacted
+SELECT f_redact_entities('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en', 'PERSON, DATE') as entities_redacted
 
 entities_redacted
 His name is [PERSON], he lives in Richmond VA, he bought an Amazon Echo Show on [DATE], and he loves it
 
 -- redact ALL Entity types
-SELECT redact_entities('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en', 'ALL') as entities_redacted
+SELECT f_redact_entities('His name is Joe, he lives in Richmond VA, he bought an Amazon Echo Show on January 5th, and he loves it', 'en', 'ALL') as entities_redacted
 
 entities_redacted
 His name is [PERSON], he lives in [LOCATION], he bought an [ORGANIZATION] [COMMERCIAL_ITEM] on [DATE], and he loves it
@@ -196,48 +196,48 @@ PII Types supported -- see [PII types](https://docs.aws.amazon.com/comprehend/la
 Input languages supported: 'en' (See [doc](https://docs.aws.amazon.com/comprehend/latest/dg/API_DetectPiiEntities.html#comprehend-DetectPiiEntities-request-LanguageCode) for latest)
 
 
-#### detect\_pii\_entities(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
+#### f\_detect\_pii\_entities(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
 
 Returns JSON string value with list of PII types and values:
 
 ```
-SELECT detect_pii_entities('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en') as pii
+SELECT f_detect_pii_entities('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en') as pii
 
 pii
 [["NAME","Joe"],["USERNAME","joe123"],["ADDRESS","Richmond VA"]]
 ```
 
-#### detect\_pii\_entities\_all(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
+#### f\_detect\_pii\_entities\_all(text_col VARCHAR, lang VARCHAR) RETURNS VARCHAR
 
 Returns the detected PII types, scores, and offsets as a JSON formatted string, which can be further analysed with Redshift's [JSON functions](https://docs.aws.amazon.com/redshift/latest/dg/json-functions.html).
 
 ```
-SELECT detect_pii_entities_all('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en') as pii_all
+SELECT f_detect_pii_entities_all('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en') as pii_all
 
 pii_all
 [{"score":0.999894,"type":"NAME","beginOffset":12,"endOffset":15},{"score":0.99996245,"type":"USERNAME","beginOffset":33,"endOffset":39},{"score":0.9999982,"type":"ADDRESS","beginOffset":56,"endOffset":67}]
 ```
 
-#### redact\_pii\_entities(text_col VARCHAR, lang VARCHAR, type VARCHAR) RETURNS VARCHAR
+#### f\_redact\_pii\_entities(text_col VARCHAR, lang VARCHAR, type VARCHAR) RETURNS VARCHAR
 
 Redacts specified entity values from the input string.
 Use the `types` argument to specify a list of [PII types](https://docs.aws.amazon.com/comprehend/latest/dg/API_PiiEntity.html#comprehend-Type-PiiEntity-Type) to be redacted.  
 
 ```
 -- redact name
-SELECT redact_pii_entities('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en', 'NAME') as pii_redacted
+SELECT f_redact_pii_entities('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en', 'NAME') as pii_redacted
 
 pii_redacted
 His name is [NAME], his username is joe123 and he lives in Richmond VA
 
 -- redact NAME and ADDRESS
-SELECT redact_pii_entities('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en', 'NAME,ADDRESS') as pii_redacted
+SELECT f_redact_pii_entities('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en', 'NAME,ADDRESS') as pii_redacted
 
 pii_redacted
 His name is [NAME], his username is joe123 and he lives in [ADDRESS]
 
 -- redact ALL PII types
-SELECT redact_pii_entities('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en', 'ALL') as pii_redacted
+SELECT f_redact_pii_entities('His name is Joe, his username is joe123 and he lives in Richmond VA', 'en', 'ALL') as pii_redacted
 
 pii_redacted
 His name is [NAME], his username is [USERNAME] and he lives in [ADDRESS]
@@ -331,14 +331,14 @@ Dataset: See https://s3.amazonaws.com/amazon-reviews-pds/readme.html
     ```
     ALTER TABLE amazon_reviews_enriched ADD COLUMN language VARCHAR;
     UPDATE amazon_reviews_enriched 
-    SET language = detect_dominant_language(review_headline);
+    SET language = f_detect_dominant_language(review_headline);
     ```
 
 5. Add and populate sentiment column   
     ```
     ALTER TABLE amazon_reviews_enriched ADD COLUMN sentiment VARCHAR;
     UPDATE amazon_reviews_enriched 
-    SET sentiment = detect_sentiment(review_headline, language) 
+    SET sentiment = f_detect_sentiment(review_headline, language) 
     WHERE language in ('ar', 'hi', 'ko', 'zh-TW', 'ja', 'zh', 'de', 'pt', 'en', 'it', 'fr', 'es');
     ```
     *Note: The query is constrained to reviews written in the set of languages supported by Comprehend's detectSentiment API.  
@@ -371,7 +371,7 @@ Dataset: See https://s3.amazonaws.com/amazon-reviews-pds/readme.html
     ```
     ALTER TABLE amazon_reviews_enriched ADD COLUMN review_headline_en VARCHAR;
     UPDATE amazon_reviews_enriched 
-    SET review_headline_en = translate_text(review_headline, language, 'en', 'null');
+    SET review_headline_en = f_translate_text(review_headline, language, 'en', 'null');
     ```
     Take a look at the results:
     ```
@@ -393,7 +393,7 @@ Dataset: See https://s3.amazonaws.com/amazon-reviews-pds/readme.html
     ```
     ALTER TABLE amazon_reviews_enriched ADD COLUMN pii VARCHAR;
     UPDATE amazon_reviews_enriched 
-    SET pii = detect_pii_entities(review_headline_en, 'en') 
+    SET pii = f_detect_pii_entities(review_headline_en, 'en') 
     
     --- Example, look for ADDRESS in the product reviews
     SELECT review_headline_en, pii FROM amazon_reviews_enriched
@@ -422,7 +422,7 @@ INSERT INTO text_with_languages VALUES
     ('It is raining in Seattle, mais il fait beau à orlando', NULL),
     ('It is raining in Seattle', NULL),
     ('Esta lloviendo en seattle', NULL);
-UPDATE text_with_languages SET dominant_languages = detect_dominant_language_all(text);
+UPDATE text_with_languages SET dominant_languages = f_detect_dominant_language_all(text);
 
 
 -- input text with full results from Comprehend
