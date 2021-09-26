@@ -82,6 +82,7 @@ public class TextAnalyticsUDFHandler
             this.comprehendClient = ComprehendClient.builder()
                 .overrideConfiguration(createClientOverrideConfiguration())
                 .build();
+            System.out.println("Created Comprehend client connection");
         }
         return this.comprehendClient;
     }
@@ -93,6 +94,7 @@ public class TextAnalyticsUDFHandler
             this.translateClient = TranslateClient.builder()
                 .overrideConfiguration(createClientOverrideConfiguration())
                 .build();
+            System.out.println("Created Translate client connection");
         }
         return this.translateClient;
     }
@@ -1043,8 +1045,7 @@ public class TextAnalyticsUDFHandler
         return textArray;
     }
     
-    // java -cp target/textanalyticsudfs-1.0.jar com.amazonaws.redshift.udf.textanalytics.TextAnalyticsUDFHandler
-    public static void main(String[] args) throws Exception
+    static void functional_tests() throws Exception
     {
         TextAnalyticsUDFHandler textAnalyticsUDFHandler = new TextAnalyticsUDFHandler();
 
@@ -1130,5 +1131,26 @@ public class TextAnalyticsUDFHandler
         text = new String[]{"I am Bob, I live in Herndon. I am Bob, I live in Herndon. I am Bob, I live in Herndon. I am Bob, I live in Herndon. I am Bob, I live in Herndon. I am Bob, I live in Herndon."};
         System.out.println(toJSON(textAnalyticsUDFHandler.detect_pii_entities(text, lang)));        
         System.out.println(toJSON(textAnalyticsUDFHandler.redact_pii_entities(text, lang, makeArray("ALL", 1))));        
+    }
+
+    static void performance_tests() throws Exception
+    {
+        TextAnalyticsUDFHandler textAnalyticsUDFHandler = new TextAnalyticsUDFHandler();
+        System.out.println("\nDETECT ENTITIES - BATCH PERFORMANCE TEST");
+        int size = 7500;
+        String[] text;
+        String[] lang;
+        text = makeArray("I am Bob, I live in Herndon",size);
+        lang = makeArray("en", size);
+        textAnalyticsUDFHandler.detect_entities(text, lang);
+        //textAnalyticsUDFHandler.detect_pii_entities(text, lang);
+        System.out.println("\nDONE");
+    }
+
+    // java -cp target/textanalyticsudfs-1.0.jar com.amazonaws.redshift.udf.textanalytics.TextAnalyticsUDFHandler
+    public static void main(String[] args) throws Exception
+    {
+        functional_tests();
+        //performance_tests();
     }
 }
