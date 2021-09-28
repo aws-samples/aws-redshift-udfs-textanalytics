@@ -24,7 +24,8 @@ Then try the query examples below, or examples of your own, using the UDF.
 4. Deploy the lambda function from the serverless repo, or run `sam deploy --template-file packaged.yaml --stack-name RedshiftTextAnalyticsUDF --capabilities CAPABILITY_NAMED_IAM`
 5. When the application has deployed, navigate to the **CloudFormation stack** named `RedshiftTextAnalyticsUDF` or `serverlessrepo-RedshiftTextAnalyticsUDF`
 6.	Choose the stack **Outputs**
-7.	Select the SQL code that is shown as the value of the output labelled **SQLScriptExternalFunction** - copy and paste this SQL into your Redshift SQL client or the Redshift console query editor.  
+7.	Select the IAM role ARN shown as the output labelled **RedshiftLambdaInvokeRole**, and associate it with your Redshift cluster using the Redshift console .
+8.	Select the SQL code that is shown as the value of the output labelled **SQLScriptExternalFunction** - copy and paste this SQL into your Redshift SQL client or the Redshift console query editor.  
   
 Then try the query examples below, or examples of your own, using the UDF.
 
