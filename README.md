@@ -7,7 +7,7 @@ This Redshift UDF Lambda provides (i) text translation between languages using A
 #### Install pre-built UDFs from the AWS Serverless Application Repository (SAR)
 
 Install the prebuilt Lambda function with the following steps:
-1.	Navigate to the [RedshiftTextAnalyticsUDF](https://console.aws.amazon.com/lambda/home?region=us-east-1#/create/app?applicationId=arn:aws:serverlessrepo:us-east-1:912625584728:applications/TextAnalyticsUDFHandler) application in the AWS Serverless Application Repository.
+1.	Navigate to the [RedshiftTextAnalyticsUDF](https://console.aws.amazon.com/lambda/home?region=us-east-1#/create/app?applicationId=arn:aws:serverlessrepo:us-east-1:777566285978:applications/RedshiftTextAnalyticsUDF) application in the AWS Serverless Application Repository.
 2.	In the Application settings section, keep the settings at their defaults.
 3.	Select I acknowledge that this app creates custom IAM roles.
 4.	Choose Deploy.
@@ -247,7 +247,9 @@ His name is [NAME], his username is [USERNAME] and he lives in [ADDRESS]
 
 ## Use case tutorial
 
-See the blog post for the tutorial on analysing Amazon product reviews: Link TBD
+See the AWS blog post: [Translate and analyze text using SQL functions with Amazon Redshift, Amazon Translate, and Amazon Comprehend](www.amazon.com/redshift-textanalyticsudf)
+
+The SQL functions described here are also available for Amazon Athena. For more information, see [Translate, redact, and analyze text using SQL functions with Amazon Athena, Amazon Translate, and Amazon Comprehend](http://www.amazon.com/athena-textanalyticsudf).
 
 ## License
 
