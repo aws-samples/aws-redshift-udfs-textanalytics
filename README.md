@@ -13,7 +13,7 @@ Install the prebuilt Lambda function with the following steps:
 4.	Choose Deploy.
 5.	When the application has deployed, chose **CloudFormation stack** from the Application **Deployments** tab
 6.	Choose the stack **Outputs**
-7.	Select the IAM role ARN shown as the output labelled **RedshiftLambdaInvokeRole**, and associate it with your Redshift cluster using the Redshift console .
+7.	Select the IAM role ARN shown as the output labelled **RedshiftLambdaInvokeRole**, and associate it with your Redshift cluster using the Redshift console.
 8.	Select the SQL code that is shown as the value of the output labelled **SQLScriptExternalFunction** - copy and paste this SQL into your Redshift SQL client or the Redshift console query editor.
 
 Then try the query examples below, or examples of your own, using the UDF.
@@ -25,7 +25,7 @@ Then try the query examples below, or examples of your own, using the UDF.
 4. Deploy the lambda function from the serverless repo, or run `sam deploy --template-file packaged.yaml --stack-name RedshiftTextAnalyticsUDF --capabilities CAPABILITY_NAMED_IAM`
 5. When the application has deployed, navigate to the **CloudFormation stack** named `RedshiftTextAnalyticsUDF` or `serverlessrepo-RedshiftTextAnalyticsUDF`
 6.	Choose the stack **Outputs**
-7.	Select the IAM role ARN shown as the output labelled **RedshiftLambdaInvokeRole**, and associate it with your Redshift cluster using the Redshift console .
+7.	Select the IAM role ARN shown as the output labelled **RedshiftLambdaInvokeRole**, and associate it with your Redshift cluster using the Redshift console.
 8.	Select the SQL code that is shown as the value of the output labelled **SQLScriptExternalFunction** - copy and paste this SQL into your Redshift SQL client or the Redshift console query editor.  
   
 Then try the query examples below, or examples of your own, using the UDF.
@@ -248,7 +248,7 @@ His name is [NAME], his username is [USERNAME] and he lives in [ADDRESS]
 
 ## Use case tutorial
 
-See the AWS blog post: [Translate and analyze text using SQL functions with Amazon Redshift, Amazon Translate, and Amazon Comprehend](www.amazon.com/redshift-textanalyticsudf)
+See the AWS blog post: [Translate and analyze text using SQL functions with Amazon Redshift, Amazon Translate, and Amazon Comprehend](http://www.amazon.com/redshift-textanalyticsudf)
 
 The SQL functions described here are also available for Amazon Athena. For more information, see [Translate, redact, and analyze text using SQL functions with Amazon Athena, Amazon Translate, and Amazon Comprehend](http://www.amazon.com/athena-textanalyticsudf).
 
