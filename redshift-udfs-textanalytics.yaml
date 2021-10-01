@@ -1,9 +1,9 @@
 Transform: 'AWS::Serverless-2016-10-31'
-Description: Amazon Redshift UDFs for text translation, PII detection/redaction, and analytics using Amazon Comprehend and Amazon Translate (v0.1.0)
+Description: Amazon Redshift UDFs for text translation, PII detection/redaction, and analytics using Amazon Comprehend and Amazon Translate (v0.1.1)
 Metadata:
   'AWS::ServerlessRepo::Application':
     Name: RedshiftTextAnalyticsUDF
-    SemanticVersion: 0.1.0
+    SemanticVersion: 0.1.1
     Description: 'This Redshift UDF Lambda provides (i) text translation between languages using Amazon Translate, (ii) text analytics including detection of language, sentiment, entities and PII using Amazon Comprehend, and (iii) redaction of detected entities and PII.'
     Author: 'Bob Strahan'
     SpdxLicenseId: MIT-0
